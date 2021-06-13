@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiRaizBackend: 'localhost:3001'
 };

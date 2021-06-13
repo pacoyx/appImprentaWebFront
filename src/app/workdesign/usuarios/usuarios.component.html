@@ -1,0 +1,91 @@
+<h2>Usuarios</h2>
+<hr>
+
+<button class="btn btn-primary" (click)="nuevoUsuario()"> 
+    <i class="fas fa-user-plus"></i> Nuevo</button>
+<hr>
+<table class="table table-striped table-inverse table-responsive">
+    <thead class="thead-inverse">
+        <tr>
+            <th>CORREO</th>
+            <th>NOMBRE</th>
+            <th>FECHA CREACION</th>
+            <th>PERFIL USUARIO</th>
+            <th>AREA</th>
+            <th>ESTADO</th>
+            <th>ACCIONES</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of arrUsuarios">
+            <td scope="row">{{item.email}}</td>
+            <td>{{item.nameUser}}</td>
+            <td>{{item.dateCreate}}</td>
+            <td>{{item.profileUser}}</td>
+            <td>{{item.area}}</td>
+            <td>{{item.statusUser}}</td>
+            <td>                
+                <i class="fas fa-user-edit mr-3 cursor"  (click)="editarUsuario(item)"></i>
+                <i class="fas fa-trash-alt cursor" (click)="eliminarUsuario(item)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<ng-template #modalData let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Nuevo usuario</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <form [formGroup]="usuarioForm" (ngSubmit)="regUsuario()">
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input  #focusInput type="email" class="form-control" id="email" formControlName="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" formControlName="password">
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" formControlName="nameUser">
+            </div>
+
+            <div class="form-group">
+                <label for="perfil">Perfil:</label>
+                <select id="perfil" class="form-control" formControlName="profileUser">
+                    <option *ngFor="let item of arrPerfil" [value]="item">{{item}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="area">Area:</label>
+                <select id="area" class="form-control" formControlName="area">
+                    <option *ngFor="let item of arrArea" [value]="item.idarea">{{item.descripcion}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select id="estado" class="form-control" formControlName="statusUser">
+                    <option *ngFor="let item of arrEstado" [value]="item">{{item}}</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="usuarioForm.invalid">
+                <i class="fa fa-save"></i> Registrar</button>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
