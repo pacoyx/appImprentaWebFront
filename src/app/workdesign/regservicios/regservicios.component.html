@@ -1,1 +1,236 @@
-<p>regservicios works!</p>
+<h2>Servicios</h2>
+<hr>
+
+<button class="btn btn-primary" (click)="nuevoServicio()">
+    <i class="far fa-file-alt"></i> Nuevo</button>
+
+<!-- <button class="btn btn-outline-primary" (click)="descargarFile()">
+        <i class="far fa-file-alt"></i> descargar File</button> -->
+<hr>
+
+
+
+<table class="table table-striped table-inverse table-responsive">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Action</th>
+            <th>IDS</th>
+            <th>ITEM</th>
+            <th>FEC.CREACION</th>
+            <th>USUARIO</th>
+            <th>CLIENTE</th>
+            <th>ART.VENTA</th>
+            <th>ART.GRAFICO</th>
+            <th>TIPO</th>
+            <th>DESCRIPCION</th>
+            <th>FEC-ENTREGA-PROVE</th>
+            <th>FEC-ENTREGA-VENTA</th>
+            <th>ESTADO</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of arrServicios">
+            <td>
+                <button class="btn btn-warning btn-sm" (click)="listaVersionxServicio(item)">FLOW</button>
+                <span class="m-1"></span>
+                <button class="btn btn-secondary btn-sm" (click)="addVersion(item)">ADD</button>
+            </td>
+
+            <td scope="row">{{item.idservicio}}</td>
+            <td>{{item.item}}</td>
+            <td>{{item.fechaCreacion | date}}</td>
+            <td>{{item.idusuario}}</td>
+            <td>{{item.idcliente}}</td>
+            <td>{{item.codigoArticuloVenta}}</td>
+            <td>{{item.codigoArticuloGrafico}}</td>
+            <td>{{item.tipo}}</td>
+            <td>{{item.descripcion}}</td>
+            <td>{{item.fechaEntregaProveedor | date}}</td>
+            <td>{{item.fechaEntregaVenta | date}}</td>
+            <td>{{item.estado}}</td>
+
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #modalVersiones let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">List Versions</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+            <h5>N° SERVICE : {{idServicio}}</h5>
+            <hr>
+            <div *ngFor="let item of arrVersiones; let i=index" style="text-align:center;">
+                <div class="card border-secondary  mb-3" style="max-width: 18rem; margin:0px auto;">
+                    <div class="card-header">Version : {{item.item}} | <span
+                            class="text-right ml-2"><small>{{item.usuario}}</small> </span> </div>
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">{{item.tipo}}</h5>
+                        <p>Date : {{item.fecha | date}}</p>
+                        <!-- <p>File : {{item.nombreArchivo}}</p> -->
+                        <p class="card-text">Comment : {{item.comentario}}</p>
+                        <button class="btn btn-info btn btn-sm btn-block" (click)="descargarFile(item)">
+                            <i class="fas fa-download"></i> {{item.nombreArchivoOriginal}}</button>
+                    </div>
+
+                </div>
+                <div class="text-center m-2" *ngIf="arrVersiones.length !== (i+1)">
+                    <i class="fas fa-long-arrow-alt-down fa-2x"></i>
+                </div>
+            </div>
+
+            <!-- <div *ngFor="let item of arrVersiones" class="mb-3">
+                <div class="row">
+                    <div class="col-2"><b>N°ID :</b></div>
+                    <div class="col-4 color-text">{{item.idservicio}}</div>
+                    <div class="col-2"><b>Version :</b> </div>
+                    <div class="col-4 color-text">
+                        <h5>{{item.item}}</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2"><b>File :</b></div>
+                    <div class="col-4 color-text">
+                        <button (click)="descargarFile(item.nombreArchivoOriginal)">{{item.nombreArchivo}}</button>
+
+                    </div>
+                    <div class="col-2"><b>Type :</b></div>
+                    <div class="col-4 color-text">{{item.tipo}}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2"><b>Date :</b></div>
+                    <div class="col-4 color-text">{{item.fecha | date}}</div>
+                    <div class="col-2"><b>User :</b></div>
+                    <div class="col-4 color-text">{{item.usuario}}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4"><b>Comments :</b></div>
+                    <div class="col-8 color-text">{{item.comentario}}</div>
+                </div>
+                <hr>
+            </div> -->
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #modalData let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">New Version</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+            <form [formGroup]="form" (ngSubmit)="submitForm()">
+
+
+                <div class="form-group">
+                    <label for="usuario">User</label>
+                    <input class="form-control" formControlName="usuario" id="usuario">
+                </div>
+
+                <div class="form-group">
+                    <label for="servicio">IDService</label>
+                    <input class="form-control" formControlName="idservicio" id="servicio">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Type Version</label>
+                    <select id="tipo" class="form-control" formControlName="tipo">
+                        <option *ngFor="let item of arrTipoVersion" [value]="item">{{item}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="carga">Select File</label>
+                    <input type="file" (change)="uploadFile($event)" id="carga" class="form-control">
+
+                </div>
+
+                <div class="form-group">
+                    <!-- <input class="form-control" placeholder="Comentarios" formControlName="comentario"> -->
+                    <textarea id="carga" cols="30" rows="10" placeholder="Comentarios" formControlName="comentario"
+                        class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block btn-lg">Create</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #modalImport let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Import File Excel for Service</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="container">
+
+            <div class="form-group">
+                <label for="usuario">User</label>
+                <input class="form-control" id="usuario" value="rita@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="cliente">Client</label>
+                <input class="form-control" id="cliente" value="10436190455">
+            </div>
+
+            <input type="file" (change)="onFileChange($event)">
+
+            <table id="contactJs" class="table table-striped table-inverse table-responsive">
+                <tr class="thead">
+                    <th>refOrdine</th>
+                    <th>refArticoloVendita</th>
+                    <th>codArticoloMaterialeGrafico</th>
+                    <th>AttivitaRichiesta</th>
+                    <th>DescrizioneArticolo</th>
+                    <th>DataRichiestaMaterialeFornitore</th>
+                    <th>DataScadRichiestaFileGrafico</th>
+                </tr>
+                <tr class="tbody" *ngFor="let contact of importContacts; let odd = odd" [ngClass]="{'odd': odd}">
+                    <td>{{contact?.refOrdine}}</td>
+                    <td>{{contact?.refArticoloVendita}}</td>
+                    <td>{{contact?.codArticoloMaterialeGrafico}}</td>
+                    <td>{{contact?.AttivitaRichiesta}}</td>
+                    <td>{{contact?.DescrizioneArticolo}}</td>
+                    <td>{{contact?.DataRichiestaMaterialeFornitore | date}}</td>
+                    <td>{{contact?.DataScadRichiestaFileGrafico | date}}</td>
+                </tr>
+            </table>
+
+            <button class="btn btn-primary" (click)="registrarServicioExcel()"><i class="fas fa-check"></i> ok,
+                import</button>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
