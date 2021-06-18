@@ -21,3 +21,5 @@ export const loginUsuarioSuccess = createAction('[LoginUsuario] Login Usuario Su
 
 export const loginUsuarioError = createAction('[LoginUsuario] Login Usuario Error',
     props<{ payload: any }>());
+
+export const unSetUser = createAction('[LoginUsuario] unSetUser');

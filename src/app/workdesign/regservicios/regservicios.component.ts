@@ -58,24 +58,9 @@ export class RegserviciosComponent implements OnInit, OnDestroy {
       servicioItem: [''],
     });
 
-    if (this.usuarioSis.profileUser === 'ADMINISTRADOR') {
-      this.regservis.getServicios().then((resp: any) => {
-        this.arrServicios = resp.data[0];
-      });
-    }
-
-    if (this.usuarioSis.profileUser === 'DISEÑADOR') {
-      this.regservis.getServicios().then((resp: any) => {
-        this.arrServicios = resp.data[0];
-      });
-    }
-
-    if (this.usuarioSis.profileUser === 'CALIDAD') {
-      this.regservis.getServicios().then((resp: any) => {
-        this.arrServicios = resp.data[0];
-      });
-    }
-
+    this.regservis.getServicios(this.usuarioSis.profileUser).then((resp: any) => {
+      this.arrServicios = resp.data[0];
+    });
 
   }
 

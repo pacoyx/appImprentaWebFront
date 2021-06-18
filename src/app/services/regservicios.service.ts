@@ -14,14 +14,14 @@ export class RegserviciosService {
   constructor(private httpClient: HttpClient) { }
 
 
-  
 
-  getServicios() {
+
+  getServicios(profile: string) {
 
     return new Promise((resolve, reject) => {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-      const elbody = {};
+      const elbody = { tipo: profile };
       return this.httpClient
         .post(environment.apiRaizBackend + 'servicio/listServicio', elbody, { headers })
         .pipe(

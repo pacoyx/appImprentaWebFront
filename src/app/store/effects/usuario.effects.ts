@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as usuariosActions from '../actions';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { of } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -23,6 +23,8 @@ export class UsuarioEffects {
             mergeMap(
                 (action) => this.authService.loginUsuario(action.email, action.password)
                     .pipe(
+                        tap(rex => localStorage.setItem('userImprenta', 'dexter')
+                        ),
                         map(user => usuariosActions.loginUsuarioSuccess({ usuario: user.data[0][0] })),
                         catchError(err => of(usuariosActions.cargarUsuarioError({ payload: err })))
                     )

@@ -1,6 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import { Usuario } from 'src/app/models/usuario.model';
-import { cargarUsuario, cargarUsuarioSuccess, cargarUsuarioError, loginUsuario, loginUsuarioSuccess, loginUsuarioError } from '../actions';
+import {
+    cargarUsuario,
+    cargarUsuarioSuccess,
+    cargarUsuarioError,
+    loginUsuario,
+    loginUsuarioSuccess,
+    loginUsuarioError,
+    unSetUser
+} from '../actions';
 
 export interface UsuarioState {
     id: string;
@@ -37,6 +45,8 @@ const _usuarioReducer = createReducer(
             message: payload.message
         }
     })),
+
+    on(unSetUser, (state) => ({ ...state, user: null })),
 
 
     on(cargarUsuario, (state, { id }) => ({ ...state, loading: true, id })),
