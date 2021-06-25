@@ -23,6 +23,7 @@
     "@ngrx/effects": "^12.1.0",
     "@ngrx/store": "^12.1.0",
     "@ngrx/store-devtools": "^12.1.0",
+    "angular-epic-spinners": "^2.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "2.9.3",
     "file-saver": "^2.0.5",

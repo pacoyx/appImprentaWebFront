@@ -8,7 +8,8 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { RegserviciosComponent } from './regservicios/regservicios.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { FormsModule } from '@angular/forms';
+import { TrinityRingsSpinnerModule } from 'angular-epic-spinners';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     WorkdesignRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    TrinityRingsSpinnerModule
   ]
 })
 export class WorkdesignModule { }

@@ -20,6 +20,7 @@ export class UsuariosComponent implements OnInit {
   arrPerfil: any[] = ['ADMINISTRADOR', 'DISEÑADOR', 'CALIDAD'];
   arrUsuarios: Usuario[] = [];
   bolNuevo = true;
+  loading = false;
 
   closeModal: string;
   @ViewChild('modalData') myModal: any;
@@ -41,8 +42,9 @@ export class UsuariosComponent implements OnInit {
       area: ['ADMINISTRACION', Validators.required],
       statusUser: ['ACTIVO', Validators.required],
     });
-
+    this.loading = true;
     this.usuServis.getUsuarios().then((resp: any) => {
+      this.loading = false;
       this.arrUsuarios = resp.data[0];
     });
 

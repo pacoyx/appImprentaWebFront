@@ -23,3 +23,8 @@ export const loginUsuarioError = createAction('[LoginUsuario] Login Usuario Erro
     props<{ payload: any }>());
 
 export const unSetUser = createAction('[LoginUsuario] unSetUser');
+
+
+export const loginCloseMsg = createAction(
+    '[LoginUsuario] Login Close Alert Msg'
+);

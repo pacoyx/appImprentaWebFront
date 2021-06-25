@@ -1,20 +1,26 @@
-<h2>Clientes</h2>
+<h2>Customers</h2>
 <hr>
 
 <button class="btn btn-primary" (click)="nuevoCliente()">
-    <i class="fas fa-user-plus"></i> Nuevo</button>
+    <i class="fas fa-user-plus"></i> New</button>
 <hr>
+
+<div *ngIf="loading" class="text-center">
+    <app-trinity-rings-spinner [animationDuration]="1500" [size]="66" [color]="'rgb(14, 93, 212)'">
+    </app-trinity-rings-spinner>
+    Cargando...
+</div>
 
 <table class="table table-striped table-inverse table-responsive">
     <thead class="thead-inverse">
         <tr>
-            <th>CODIGO</th>
-            <th>NOMBRE</th>
-            <th>CORREO</th>
-            <th>CONTACTO</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+            <th>CONTACT</th>
             <th>MOVIL</th>
-            <th>ESTADO</th>
-            <th>ACCIONES</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
         </tr>
     </thead>
     <tbody>
@@ -33,10 +39,16 @@
     </tbody>
 </table>
 
+<div class="alert alert-success" role="alert" *ngIf="custom_loaded">
+    Customer Save Successful.
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="custom_err">
+    an error occurred, {{custom_msj}}
+</div>
 
 <ng-template #modalData let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Nuevo cliente</h4>
+        <h4 class="modal-title" id="modal-basic-title">New Customer</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">×</span>
         </button>
@@ -47,38 +59,60 @@
         <form [formGroup]="clienteForm" (ngSubmit)="regCliente()">
 
             <div class="form-group">
-                <label for="codigo">Codigo:</label>
+                <label for="codigo">Id:</label>
                 <input type="text" class="form-control" id="codigo" formControlName="idcliente">
+                <div *ngIf="isValidInput('idcliente')" class="text-danger">
+                    <div *ngIf="clienteForm.controls['idcliente'].errors.required">
+                        Id Customer is required.
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre">Name:</label>
                 <input type="text" class="form-control" id="nombre" formControlName="descripcion">
+                <div *ngIf="isValidInput('descripcion')" class="text-danger">
+                    <div *ngIf="clienteForm.controls['descripcion'].errors.required">
+                        Name Customer is required.
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="correo">Correo:</label>
+                <label for="correo">Email:</label>
                 <input type="email" class="form-control" id="correo" formControlName="correo">
+                <div *ngIf="isValidInput('correo')" class="text-danger">
+                    <div *ngIf="clienteForm.controls['correo'].errors.required">
+                        Email Customer is required.
+                    </div>
+                    <div *ngIf="clienteForm.controls['correo'].errors.email">
+                        Must be a valid email format.
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="contacto">Contacto:</label>
+                <label for="contacto">Contact:</label>
                 <input type="text" class="form-control" id="contacto" formControlName="contacto">
             </div>
-
-            <div class="form-group">
-                <label for="movil">Movil:</label>
-                <input type="text" class="form-control" id="movil" formControlName="movil">
-            </div>
-
-            <div class="form-group">
-                <label for="estado">Estado:</label>
-                <select id="estado" class="form-control" formControlName="estado">
-                    <option *ngFor="let item of arrEstado" [value]="item">{{item}}</option>
-                </select>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="movil">Movil:</label>
+                        <input type="text" class="form-control" id="movil" formControlName="movil">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="estado">Status:</label>
+                        <select id="estado" class="form-control" formControlName="estado">
+                            <option *ngFor="let item of arrEstado" [value]="item">{{item}}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary" [disabled]="clienteForm.invalid">
-                <i class="fa fa-save"></i> Registrar</button>
+                <i class="fa fa-save"></i> Save</button>
         </form>
 
     </div>

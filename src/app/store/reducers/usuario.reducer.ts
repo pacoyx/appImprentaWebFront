@@ -7,7 +7,9 @@ import {
     loginUsuario,
     loginUsuarioSuccess,
     loginUsuarioError,
-    unSetUser
+    unSetUser,
+    createCustomerCloseMsg,
+    loginCloseMsg
 } from '../actions';
 
 export interface UsuarioState {
@@ -67,6 +69,13 @@ const _usuarioReducer = createReducer(
             name: payload.name,
             message: payload.message
         }
+    })),
+
+    on(loginCloseMsg, (state) => ({
+        ...state,
+        loaded: false,
+        loading: false,
+        error: null
     })),
 );
 

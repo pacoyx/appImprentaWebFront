@@ -16,12 +16,12 @@ export class RegserviciosService {
 
 
 
-  getServicios(profile: string) {
+  getServicios(profile: string, filtro) {
 
     return new Promise((resolve, reject) => {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-      const elbody = { tipo: profile };
+      const elbody = { tipo: profile, filtro };
       return this.httpClient
         .post(environment.apiRaizBackend + 'servicio/listServicio', elbody, { headers })
         .pipe(
@@ -65,7 +65,7 @@ export class RegserviciosService {
       return this.httpClient
         .post(environment.apiRaizBackend + 'servicio/createServicio', elbody, { headers })
         .pipe(
-          retry(1),
+          // retry(1),
           catchError(this.httpError),
           map((resp: any) => {
             return resp;
@@ -82,8 +82,6 @@ export class RegserviciosService {
         );
     });
   }
-
-
 
   getVersionesxServicio(idservicio: string, item: number) {
 
@@ -112,9 +110,9 @@ export class RegserviciosService {
     });
   }
 
+  addVersionWithFile(objData: any) {
 
 
-  addVersion(objData: any) {
 
     return new Promise((resolve, reject) => {
 
@@ -126,8 +124,46 @@ export class RegserviciosService {
       formData.append('comentario', objData.comentario);
       formData.append('servicioItem', objData.servicioItem);
 
+
+
       return this.httpClient
         .post(environment.apiRaizBackend + 'version/registrarVersion', formData)
+        .pipe(
+          retry(1),
+          catchError(this.httpError),
+          map((resp: any) => {
+            return resp;
+          })
+        )
+        .toPromise()
+        .then(
+          (resP: any) => {
+            resolve(resP);
+          },
+          (err) => {
+            reject(err);
+          }
+        );
+    });
+  }
+
+  addVersionWithOutFile(objData: any) {
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+
+    return new Promise((resolve, reject) => {
+
+      const elbody = {
+        idservicio: objData.idservicio,
+        usuario: objData.usuario,
+        tipo: objData.tipo,
+        comentario: objData.comentario,
+        servicioItem: objData.servicioItem
+      };
+
+      return this.httpClient
+        .post(environment.apiRaizBackend + 'version/registrarVersionNoFile', elbody, { headers })
         .pipe(
           retry(1),
           catchError(this.httpError),

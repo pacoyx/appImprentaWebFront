@@ -4,16 +4,23 @@
 <button class="btn btn-primary" (click)="nuevoUsuario()"> 
     <i class="fas fa-user-plus"></i> Nuevo</button>
 <hr>
+
+<div *ngIf="loading" class="text-center">
+    <app-trinity-rings-spinner [animationDuration]="1500" [size]="66" [color]="'rgb(14, 93, 212)'">
+    </app-trinity-rings-spinner>
+    Cargando...
+</div>
+
 <table class="table table-striped table-inverse table-responsive">
     <thead class="thead-inverse">
         <tr>
-            <th>CORREO</th>
-            <th>NOMBRE</th>
-            <th>FECHA CREACION</th>
-            <th>PERFIL USUARIO</th>
+            <th>EMAIL</th>
+            <th>NAME</th>
+            <th>CREATION DATE</th>
+            <th>PROFILE USER</th>
             <th>AREA</th>
-            <th>ESTADO</th>
-            <th>ACCIONES</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
         </tr>
     </thead>
     <tbody>
@@ -36,7 +43,7 @@
 
 <ng-template #modalData let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Nuevo usuario</h4>
+        <h4 class="modal-title" id="modal-basic-title">New usuario</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">×</span>
         </button>

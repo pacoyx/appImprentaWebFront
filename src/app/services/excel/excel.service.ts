@@ -10,7 +10,7 @@ export class ExcelService {
 
   public importFromFile(bstr: string): XLSX.AOA2SheetOpts {
     /* read workbook */
-    const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+    const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', cellDates: true });
 
     /* grab first sheet */
     const wsname: string = wb.SheetNames[0];

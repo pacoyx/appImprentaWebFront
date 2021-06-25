@@ -23,6 +23,8 @@ export class AuthService {
     private router: Router) {
 
     this.subscribeAuth = this.store.select('usuario').subscribe(resp => {
+      console.log('entro al subscripe del servis::',resp.user);
+      
       this.usuarioTmp = resp.user;
     });
 
@@ -32,8 +34,6 @@ export class AuthService {
     headers: new HttpHeaders()
       .set('content-type', 'application/json')
   };
-
-
 
   loginUsuario(email: string, password: string) {
     const objPost = {
@@ -49,8 +49,18 @@ export class AuthService {
 
   isAuth(): boolean {
     const user = localStorage.getItem('userImprenta');
+    console.log('de servis:', user);
     if (user) {
-      return true;
+      // return true;
+      if (this.usuarioTmp) {
+        console.log('true');
+        return true;
+
+      } else {
+        console.log('false');
+        return false;
+
+      }
     } else {
       return false;
     }

@@ -12,6 +12,7 @@ export class AuthGuard implements CanActivate {
     if (this.authServis.isAuth()) {
       return true;
     } else {
+      console.log('no hay permiso');
       this.router.navigate(['/login']);
       return false;
     }
