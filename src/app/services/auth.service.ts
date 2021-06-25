@@ -23,8 +23,7 @@ export class AuthService {
     private router: Router) {
 
     this.subscribeAuth = this.store.select('usuario').subscribe(resp => {
-      console.log('entro al subscripe del servis::',resp.user);
-      
+      console.log('entro al subscripe del servis::', resp.user);
       this.usuarioTmp = resp.user;
     });
 
@@ -34,6 +33,11 @@ export class AuthService {
     headers: new HttpHeaders()
       .set('content-type', 'application/json')
   };
+
+  callx() {
+    console.log('callx');
+
+  }
 
   loginUsuario(email: string, password: string) {
     const objPost = {
@@ -69,7 +73,7 @@ export class AuthService {
 
   logout() {
     this.store.dispatch(unSetUser());
-    this.subscribeAuth.unsubscribe();
+    // this.subscribeAuth.unsubscribe();
     localStorage.removeItem('userImprenta');
     this.router.navigate(['/login']);
   }

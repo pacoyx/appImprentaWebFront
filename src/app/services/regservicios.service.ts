@@ -83,12 +83,12 @@ export class RegserviciosService {
     });
   }
 
-  getVersionesxServicio(idservicio: string, item: number) {
+  getVersionesxServicio(idservicio: string, item: number, profile: string) {
 
     return new Promise((resolve, reject) => {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-      const elbody = { idservicio, item };
+      const elbody = { idservicio, item, profile };
       return this.httpClient
         .post(environment.apiRaizBackend + 'version/listarVersionServicio', elbody, { headers })
         .pipe(

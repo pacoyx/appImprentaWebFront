@@ -246,7 +246,7 @@ export class RegserviciosComponent implements OnInit, OnDestroy {
   // lista las versiones por servicio y item de trabajo
   listaVersionxServicio(item: Servicio): void {
     this.idServicio = item.idservicio;
-    this.regservis.getVersionesxServicio(item.idservicio, item.item).then((resp: any) => {
+    this.regservis.getVersionesxServicio(item.idservicio, item.item, this.usuarioSis.profileUser).then((resp: any) => {
       this.arrVersiones = resp.data[0];
     });
     this.modalService.open(this.myModalVersiones);

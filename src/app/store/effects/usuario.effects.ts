@@ -39,7 +39,7 @@ export class UsuarioEffects {
             ofType(usuariosActions.loginUsuarioSuccess),
             tap(() => {
                 console.log('iniciando la navegacion');
-
+                this.authService.callx();
                 this.router.navigate(['/']);
             })
         ), { dispatch: false }

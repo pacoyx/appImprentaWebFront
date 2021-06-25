@@ -24,8 +24,6 @@ export class ClientesService {
         retry(1),
         catchError(this.httpError),
         map((resp: any) => {
-          console.log('desde el servicio::', resp.data[0]);
-
           return resp.data[0];
         })
       );
